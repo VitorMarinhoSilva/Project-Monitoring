@@ -3,25 +3,17 @@ import axios from "axios";
 import React from "react";
 
 
-// const baseURL = "https://qbrdev.azurewebsites.net/data";
-
 function AppT() {
 
   async function doRequests(urls) {
     const Url = (url) => axios.get(url)
-        // {
-        // validateStatus: function (status) {
-        //     return status <=400; // padrão
-        //     }
-        // })
-    
     const promises = urls.map(Url);
     let responses = await Promise.all(promises);
 
     responses.forEach(resp => {
         let msg =`${resp.config.url} -> ${resp.status}`;
             if (resp.status >= 401){
-                Email()
+                axios.get('http://localhost:5000/Email')
             }
             console.log(msg);
         
