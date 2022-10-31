@@ -1,8 +1,12 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AppT from "./appTest";
-import { SignInButton } from "./Components/SignInButton";
 import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
+import Login from './pages/login.tsx';
+import Main from './pages/main.jsx';
+
+
+
 
 function App() {
 
@@ -10,13 +14,13 @@ function App() {
     <BrowserRouter>
       <UnauthenticatedTemplate>
         <Routes>
-          <Route path="/" element={<SignInButton />}/>
+          <Route path="/" element={<Login />}/>
         </Routes>
       </UnauthenticatedTemplate>
       <AuthenticatedTemplate>
         <Routes>
           <Route>
-            <Route path="/" element={<AppT/>} />
+            <Route path="/" element={<Main/>} />
           </Route>
         </Routes>
       </AuthenticatedTemplate>

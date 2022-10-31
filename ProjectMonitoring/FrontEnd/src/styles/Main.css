@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap');
+
+
+.container{
+    /* background-color: #247dad; */
+    height: 100vh;
+    width: 100vw;
+}
+
+.Header{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+}
+
+/* Grid Header */
+
+.Card-Title{
+    width: 100%;
+    padding-top: 50px;
+    margin-bottom: 40px;
+    font-family: Montserrat;
+    /* background-color: #288B11; */
+    display: flex;
+    justify-content: space-between;
+    /* max-width: 100%; */
+
+}
+
+*{
+    margin: 0;
+}
+
+/* .card-error{ */
+
+
+
+.card-error{
+width: 239px;
+height: 100%;
+background: #FFFFFF 0% 0% no-repeat padding-box;
+box-shadow: 3px 3px 3px  #00000029;
+border: 2px solid #335E76;
+border-radius: 8px;
+opacity: 1;
+flex-direction: column;
+
+justify-content: center;
+font-family: Montserrat;
+
+
+
+}
+.card-error h1 {
+    color: #FFFFFF;
+    background-color: #335E76;
+    font-size: 14px;
+    height: 40px;
+    display: flex;
+    align-items: center ;
+    flex-direction: row;
+    display: flex;
+    justify-content: center;
+    gap: 5%;
+}
+
+/* .img-white{ */
+    /* margin-right: 2%;
+    float:left;
+    width: 23px;
+    height: 23px;
+    background: transparent url('../static/GlobWihte.svg') 0% 0% no-repeat padding-box;
+    opacity: 1;
+    display: flex;
+    flex-direction: column; */
+
+
+.card-error h6{
+    font-size: 60px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    
+}
+.Titulo h1{
+    width: 100%;
+    height: 24%;
+    color: #0F0742;
+    display: flex;
+    margin-bottom: 1%;
+    font-size: 32px;
+    font-weight: 42px;
+}
+.s-titulo h5{
+    font-size: 16px;
+}
+
+.status-target h6{
+    margin-top: 1%;
+    display: flex;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 20px;
+    font-family: Montserrat;
+    color: #288B11;
+    padding-top: 3px;
+}
+
+.img-green{
+        float:left;
+        width: 200p;
+        height: 100%;
+        opacity: 1;
+        display: flex;
+        margin-right: 2%;
+        align-items: center;
+        text-align: center;
+        flex-direction: column;
+        
+}
+.right{
+    width: 13%;
+    display:inline;
+    
+}
+.img-white{
+    display: inline;
+    flex-direction: row;
+}
+
+.status-error h6{
+    margin-top: 5%;
+    display: flex;
+    font: normal normal medium 14px/20px Montserrat;
+    color: #E64343;
+    padding-top: 3px;
+    font-size: 14px;
+    opacity: 1;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.img-red{
+    /* margin-top: 2%; */
+    margin-right: 2%;
+    float: left;
+    width: 200p;
+    height: 100%;
+    /* background: transparent url('../static/GlobRed.svg') 0% 0% no-repeat padding-box; */
+    opacity: 1;
+}
+
+.project-info{
+    
+    margin-bottom: 30px;
+    width: 100%;
+    display: flex;
+
+    /* background-color: #0F0742;  */
+    align-items: center;
+}
+
+.project{
+    width: 214px;
+    height: 42px;
+    /* UI Properties */
+    background: #335E76 0% 0% no-repeat padding-box;
+    box-shadow: 8px 8px 8px #00000029;
+    border-radius: 24px;
+    opacity: 1;
+    justify-content: center;
+    display: flex;
+    }
+.project h6{
+    width: 100%;
+    height: 100%;
+    /* UI Properties */
+    text-align: center;
+    font: normal normal medium 14px/20px Montserrat;
+    letter-spacing: 0.11px;
+    color: #FFFFFF;
+    font-size: 14px;
+    opacity: 1;
+    justify-content:center;
+    display: flex;
+    flex-direction: column;
+}
+
+.requi{
+   
+    width: 236px;
+    height: 42px;
+    /* UI Properties */
+    background: #E64343 0% 0% no-repeat padding-box;
+    box-shadow: 8px 8px 8px #00000029;
+    border-radius: 24px;
+    opacity: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.requi h6{
+    width: 100%;
+    height: 100%;
+    /* UI Properties */
+    text-align: center;
+    font: normal normal medium 14px/20px Montserrat;
+    letter-spacing: 0.11px;
+    color: #FFFFFF;
+    font-size: 14px;
+    opacity: 1;
+    justify-content:center;
+    display: flex;
+    flex-direction: column;
+}
+.rotas{
+    width: 35%;
+}
+
+.rotas h6{
+    width: 100%;
+    height: 100%;
+    /* UI Properties */
+    font: normal normal medium 14px/20px Montserrat;
+    letter-spacing: 0.11px;
+    color: #FFFFFF;
+    font-size: 14px;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px 0 20px;
+    height: 42px;
+    /* UI Properties */
+    background: #E64343 0% 0% no-repeat padding-box;
+    box-shadow: 8px 8px 8px #00000029;
+    border-radius: 24px;
+    opacity: 1;
+    display: flex;
+    justify-content:center ;
+
+}
+.rotas a{
+    text-decoration: none;
+}
+
+.project, .requi, .rotas{
+    margin-right: 5%;
+}
