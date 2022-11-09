@@ -7,6 +7,8 @@ import axios from 'axios'
 
 
 
+
+
 function Main() {
 
     const keys = Object.keys(sessionStorage);
@@ -15,13 +17,21 @@ function Main() {
         // console.log(token.secret)
 
     }
-    const config = {
+
+    let getToken;
+    const configToken = {
+        headers: {
+          'Accept': 'application/json;odate=verbose',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+      }
+      const config = {
         method: 'get',
         headers: {
-            'Authorization': 'Bearer ' + token.secret
+            'Authorization': 'Bearer ' + getToken
         }
     };
-
+    // console.log(process.env.REACT_APP_CLIENT_ID_QBR)
 
     // console.log(config)
 
@@ -38,28 +48,34 @@ function Main() {
 
         let Info = [
             { nome: "SCALA DRILL", url: "https://drillreleasedev.azurewebsites.net/app", req: options[0].method, status: '', link: 'https://drillreleasedev.azurewebsites.net/' },
-            { nome: "QBR", url: 'https://qbrdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://qbrdev.azurewebsites.net/' },
-            // { nome: "RACK COUNT", url: 'https://rackcountdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://rackcountdev.azurewebsites.net' },
-        ];  
+            { nome: "QBR", url: 'https://qbrdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://qbrdev.azurewebsites.net/', clientid: `${process.env.REACT_APP_CLIENT_ID_QBR}`, clientsecret: `${process.env.REACT_APP_CLIENT_SECRET_QBR}` },
+            { nome: "RACK COUNT", url: 'https://rackcountdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://rackcountdev.azurewebsites.net', clientid: `${process.env.REACT_APP_CLIENT_ID_RACK}`, clientsecret: `${process.env.REACT_APP_CLIENT_SECRET_RACK}` },
+        ];
 
 
         Info.map((value, i) => {
 
-            axios(value.url, config)
-                .then(res => {
-                    Info[i].status = res.status
-                    console.log(res.status, res.config.url)
-                    if (res.status > 299) {
-                        setArrayBase((item) => {
-                            return [
-                                ...item, Info[i]
-                            ]
-                        })
-                    }
-
-                })
+            axios.post('http://localhost:5000/login', {
+                clientid: value.clientid,
+                clientsecret: value.clientsecret,
+                url: value.url
+            })
+            .then(res => {
+                Info[i].status = res.status
+                
+                if (res.status > 299) {
+                    setArrayBase((item) => {
+                        return [
+                            ...item, Info[i]
+                        ]
+                    })
+                }
+                if (res.status > 299){
+                    axios.get('http://localhost:5000/Email')
+                }
+            })
                 .catch(error => {
-                    // axios.get('http://localhost:5000/Email')
+                    axios.get('http://localhost:5000/Email')
                     setArrayBase((item) => {
                         return [
                             ...item, Info[i]
@@ -67,7 +83,6 @@ function Main() {
                     })
                     console.log("Email enviado por erro")
                 })
-
         })
 
 
