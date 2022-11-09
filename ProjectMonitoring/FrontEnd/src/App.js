@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import AppT from "./appTest";
 import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 import Login from './pages/login.tsx';
 import Main from './pages/main.jsx';

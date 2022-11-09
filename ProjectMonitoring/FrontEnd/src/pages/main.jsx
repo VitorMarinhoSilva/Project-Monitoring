@@ -3,7 +3,7 @@ import '../styles/Main.css';
 import GlobGreen from "../static/GlobGreen.svg";
 import GlobRed from "../static/GlobRed.svg";
 import GlobWhite from "../static/GlobWihte.svg";
-import axios, { AxiosError } from "axios";
+import axios from 'axios'
 
 
 
@@ -21,45 +21,15 @@ function Main() {
             'Authorization': 'Bearer ' + token.secret
         }
     };
+
+
     // console.log(config)
 
-    async function doRequests(urls) {
-        const Url = (url) => axios.get(url, config)
-
-
-        const promises = urls.map(Url);
-        let responses = await Promise.all(promises);
-
-        responses.forEach(resp => {
-            let msg = `${resp.config.url} -> ${resp.status}`;
-            if (resp.status >= 300) {
-                axios.get('http://localhost:5000/Email')
-
-            }
-            console.log(msg);
-
-
-        });
-    }
-
-    let urls = [
-        'https://drillreleasedev.azurewebsites.net/app1',
-        'https://qbrdev.azurewebsites.net/data'
-
-
-    ];
-
-    doRequests(urls);
 
 
     const [arrayBase, setArrayBase] = React.useState([])
 
     React.useEffect(() => {
-
-        //     let met = [{metodo:'get'},
-        //                {metodo:'post'}
-
-        // ]
 
 
         const options = [{ method: 'GET' },
@@ -68,28 +38,39 @@ function Main() {
 
         let Info = [
             { nome: "SCALA DRILL", url: "https://drillreleasedev.azurewebsites.net/app", req: options[0].method, status: '', link: 'https://drillreleasedev.azurewebsites.net/' },
-            { nome: "QBR", url: "https://qbrdev.azurewebsites.net/data", req: options[0].method, status: '', link: 'https://qbrdev.azurewebsites.net/' },
-        ];
+            { nome: "QBR", url: 'https://qbrdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://qbrdev.azurewebsites.net/' },
+            // { nome: "RACK COUNT", url: 'https://rackcountdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://rackcountdev.azurewebsites.net' },
+        ];  
+
 
         Info.map((value, i) => {
-            axios(value.url,config)
+
+            axios(value.url, config)
                 .then(res => {
                     Info[i].status = res.status
-                    console.log(res.status)
-                    
-                    if (res.status > 299 ) {
+                    console.log(res.status, res.config.url)
+                    if (res.status > 299) {
                         setArrayBase((item) => {
                             return [
                                 ...item, Info[i]
                             ]
                         })
                     }
-                   
+
+                })
+                .catch(error => {
+                    // axios.get('http://localhost:5000/Email')
+                    setArrayBase((item) => {
+                        return [
+                            ...item, Info[i]
+                        ]
+                    })
+                    console.log("Email enviado por erro")
                 })
 
-
-
         })
+
+
 
     }, [])
 
@@ -102,7 +83,6 @@ function Main() {
                         <div className="Titulo">
                             <h1>Monitoramento de Projetos</h1>
                         </div>
-
                         <div className="s-titulo">
                             <h5>Tela de Visualização para status de Requisições</h5>
                         </div>
