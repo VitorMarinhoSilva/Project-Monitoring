@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
-import Login from './pages/login.tsx';
+// import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
+// import Login from './pages/login.tsx';
 import Main from './pages/main.jsx';
 
 

@@ -1,17 +1,58 @@
 import Express from 'Express';
-import { Email } from './MailSend.js';
-import { TokenQbr } from './TestLogin.js';
+// import { TokenQbr } from './TestLogin.js';
 import cors from 'cors'
 import axios from 'axios';
+import nodemailer from 'nodemailer'
 
 const app = Express();
 
 app.use(cors())
 app.use(Express.json())
 
-app.get('/Email', () =>
-    Email()
+// let status;
+// let url;
+
+app.post('/Email',  function (req, res) {
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    today.toDateString()
+    const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+            user: "scalatestdev@gmail.com",
+            pass: "sxktrofndduhlbkk"
+        },
+        tls: { rejectUnauthorized: false }
+    });
+
+    // res.status(200).send({ link: req.body.url, metodo: req.body.requi, status: req.body.status })
+    const mailOptions = {
+        from: '"No Reply" <scalatestdev@gmail.com',
+        to: 'vitor.silva@scaladatacenters.com',
+        subject: 'Erro em requisições',
+        text: (`Erro de requisição em: 
+        ${req.body.url}  
+        ${req.body.requi} 
+        ${req.body.status}  
+        Date: ${today} `) };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('Email enviado: ');
+        }
+    })
+    res.send(mailOptions)
+}
+
+
+
 );
+
+
 app.post("/login", async function (req, res) {
 
     let token;
@@ -25,25 +66,42 @@ app.post("/login", async function (req, res) {
         }
     })
         .then(response => {
-            console.log(response.data.access_token)
             token = response.data.access_token
-        } )
-        .catch(erro => console.log(erro))
+        })
+
+        .catch(error => {
+            console.log(error)
+
+
+        })
 
     let status;
+    let url;
 
     await axios(req.body.url, {
         headers: {
-          'Authorization': 'Bearer ' + token
-      }
-      })
-      .then(response => {
-        status = response.status
-      })
+            'Authorization': 'Bearer ' + token
+        }
+    })
+        .then(response => {
+            status = response.status
+            url = response.config.url
+        })
+        .catch(error => {
+            axios.post("http://localhost:5000/Email", {
+                url: url,
+                requi: "GET",
+                status: status
 
-      console.log(status)
-      res.send(status)
-      return status
+            })
+            console.log(error)
+
+        })
+
+
+    console.log(status, url)
+    res.send(status, url)
+    return status
 
 });
 app.listen(5000, () =>

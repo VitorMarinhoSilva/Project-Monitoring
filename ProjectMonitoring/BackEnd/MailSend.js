@@ -1,7 +1,8 @@
 import nodemailer from 'nodemailer'
+// import context from 'react-bootstrap/esm/AccordionContext';
 
 
- export function Email() {
+ export function Email(url, method, status) {
 
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
@@ -16,8 +17,8 @@ import nodemailer from 'nodemailer'
     const mailOptions = {
         from: '"No Reply" <scalatestdev@gmail.com',
         to: 'vitor.silva@scaladatacenters.com',
-        subject: 'E-mail enviado usando Node!',
-        text: ('Error Server') 
+        subject: 'Erro em requisições',
+        text: (`Erro de requisição em ${url}`,`Metodo${method}`, `Status${status}`)
     };
     transporter.sendMail(mailOptions, function(error, info){
         if (error) {
@@ -27,4 +28,3 @@ import nodemailer from 'nodemailer'
         }
     })};
     
-    //  Email();
