@@ -3,6 +3,7 @@ import Express from 'Express';
 import cors from 'cors'
 import axios from 'axios';
 import nodemailer from 'nodemailer'
+import Mail from 'nodemailer/lib/mailer';
 
 const app = Express();
 
@@ -37,6 +38,7 @@ app.post('/Email',  function (req, res) {
         ${req.body.requi} 
         ${req.body.status}  
         Date: ${today} `) };
+
 
     transporter.sendMail(mailOptions, function (error, info) {
         if (err) {
