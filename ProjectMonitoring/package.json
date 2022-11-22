@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "axios": "^1.1.2",
-    "svg-react-loader": "^0.4.6"
-  },
-  "type": "module",
-  "include": ["src/components", "src/custom.d.ts"]
-}
