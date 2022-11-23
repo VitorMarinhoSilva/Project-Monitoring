@@ -1,4 +1,4 @@
-import Express from 'express'
+import Express, { response } from 'express'
 // import { TokenQbr } from './TestLogin.js';
 import cors from 'cors'
 import axios from 'axios';
@@ -47,19 +47,19 @@ app.post('/Email', function (req, res) {
     }
     transporter.use('compile', hbs(handlebarOptions));
 
-//     let url2 = (req.body.url).split(',')
-//     let url = [];
-// console.log(url2, "oiasaisaosisaosaisosiasia")
-//     url2.map(value => {
-//         url.push(
+    //     let url2 = (req.body.url).split(',')
+    //     let url = [];
+    // console.log(url2, "oiasaisaosisaosaisosiasia")
+    //     url2.map(value => {
+    //         url.push(
 
-//             {
-//                 name:value
-//             }
-//         )
-//     })
+    //             {
+    //                 name:value
+    //             }
+    //         )
+    //     })
 
-    console.log(req.body.url)
+    // console.log(req.body.url)
 
 
     const mailOptions = {
@@ -94,7 +94,8 @@ app.post('/Email', function (req, res) {
 
 
 );
-
+let status;
+let url;
 
 app.post("/login", async function (req, res) {
 
@@ -108,34 +109,43 @@ app.post("/login", async function (req, res) {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     })
+
         .then(response => {
             token = response.data.access_token
         })
 
         .catch(error => {
+            if (status > 299) {
+                axios.post("http://localhost:5000/Email", {
+                    url: url
+                })
+                console.log(error)
+            }
             console.log(error)
 
 
         })
-
-    let status;
-    let url;
 
     await axios(req.body.url, {
         headers: {
             'Authorization': 'Bearer ' + token
         }
     })
+        .catch(error => {
+            if (status > 299) {
+                axios.post("http://localhost:5000/Email", {
+                    url: url
+                })
+                console.log(error)
+            }
+        })
         .then(response => {
             status = response.status
             url = response.config.url
         })
         .catch(error => {
             axios.post("http://localhost:5000/Email", {
-                url: url,
-                requi: "GET",
-                status: status
-
+                url: url
             })
             console.log(error)
 
