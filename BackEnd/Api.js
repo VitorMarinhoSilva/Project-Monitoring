@@ -1,4 +1,4 @@
-import Express from 'Express';
+import Express from 'express'
 // import { TokenQbr } from './TestLogin.js';
 import cors from 'cors'
 import axios from 'axios';
@@ -25,7 +25,7 @@ app.post('/Email', function (req, res) {
     const today = new Date(timeElapsed);
     today.toDateString()
 
-    // let url = req.body.url
+
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 465,
@@ -47,14 +47,20 @@ app.post('/Email', function (req, res) {
     }
     transporter.use('compile', hbs(handlebarOptions));
 
-    // res.status(200).send({ link: req.body.url, metodo: req.body.requi, status: req.body.status })
-    let url = []
+//     let url2 = (req.body.url).split(',')
+//     let url = [];
+// console.log(url2, "oiasaisaosisaosaisosiasia")
+//     url2.map(value => {
+//         url.push(
 
-    req.body.url.map(value => {
-        url.push(
-            value
-        )
-    })
+//             {
+//                 name:value
+//             }
+//         )
+//     })
+
+    console.log(req.body.url)
+
 
     const mailOptions = {
         from: '"No Reply" <scalatestdev@gmail.com',
@@ -68,8 +74,7 @@ app.post('/Email', function (req, res) {
         // Date: ${today} `),
         template: 'template',
         context: {
-            url: req.body.url, status: req.body.status
-            // status: req.body.status
+            url: req.body.url,
         }
     };
 
@@ -136,7 +141,9 @@ app.post("/login", async function (req, res) {
 
         })
 
-    console.log(url)
+
+    // console.log(url)
+    // console.log( url2)
     console.log(status, url)
     res.send(status, url)
     return status

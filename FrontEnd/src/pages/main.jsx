@@ -34,19 +34,19 @@ function Main() {
     { method: 'POST' }
     ];
 
-
     let Info = [
-        { nome: "SCALA DRILL", url: "https://drillreleasedev.azurewebsites.net/app", req: options[0].method, status: '', link: 'https://drillreleasedev.azurewebsites.net/' },
-        { nome: "QBR", url: 'https://qbrdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://qbrdev.azurewebsites.net/', clientid: `${process.env.REACT_APP_CLIENT_ID_QBR}`, clientsecret: `${process.env.REACT_APP_CLIENT_SECRET_QBR}` },
+        { nome: "SCALA DRILL", url: 'https://drillreleasedev.azurewebsites.net/app', req: options[0].method, status: '', link: 'https://drillreleasedev.azurewebsites.net/' },
+        // { nome: "QBR", url: 'https://qbrdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://qbrdev.azurewebsites.net/', clientid: `${process.env.REACT_APP_CLIENT_ID_QBR}`, clientsecret: `${process.env.REACT_APP_CLIENT_SECRET_QBR}` },
         { nome: "RACK COUNT", url: 'https://rackcountdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://rackcountdev.azurewebsites.net', clientid: `${process.env.REACT_APP_CLIENT_ID_RACK}`, clientsecret: `${process.env.REACT_APP_CLIENT_SECRET_RACK}` },
-        // { nome: "IT TOOL", url: 'http://10.1.108.11:5009/check_health', req: options[0].method, status: '', link: 'http://10.1.108.11:5009/check_health'},
-    ];  
+        { nome: "IT TOOL", url: 'http://10.1.108.11:5009/check_health', req: options[0].method, status: '', link: 'http://10.1.108.11:5009/check_health'},
+    ];
+
     let index = 0
     const [url, setUrl] = React.useState([])
     const [status, setStatus] = React.useState([])
     const [req, setRequi] = React.useState([])
 
-    
+
     React.useEffect(() => {
         async function Teste() {
             const urls = []
@@ -54,8 +54,6 @@ function Main() {
             const requi = []
             let str2 = ''
             let str3 = ''
-            let str4 = ''
-
             await Info.map((value, i) => {
                 index = i + 1
                 axios.post('http://localhost:5000/login', {
@@ -63,16 +61,17 @@ function Main() {
                     clientsecret: value.clientsecret,
                     url: value.url
                 })
+
                     .then(res => {
                         Info[i].status = res.status
                         setArrayBase((item) => {
                             return [
                                 ...item, Info[i]
                             ]
-
                         })
                         setHaveCatch(true)
-                        urls.push(value.url)
+                        urls.push({ name: value.url, status: value.status })
+                        // urls.push(value.url)
                         statusCode.push(value.status)
                     })
                     .catch(error => {
@@ -80,16 +79,17 @@ function Main() {
 
                             str2 = str2 + value + ', '
                         })
-                        status.forEach(value => {
-                            str3 = str3 + value + ', '
-                        })
+                        console.log(url)
+                        // status.forEach(value => {
+                        //     str3 = str3 + value + ', '
+                        // })
+
                         // req.forEach(value => {
                         //     str4 = str4 + value + ', '
                         // })
                         console.log('entrou aqui')
                         axios.post('http://localhost:5000/Email', {
                             url: str2,
-                            requi: str4,
                             status: str3
                         })
                         console.log("Email enviado por erro")
@@ -101,16 +101,16 @@ function Main() {
                         console.log('entrou aqui')
                     })
 
-
-
                 if (i + 1 == Info.length & value.status < 299 && haveCatch) {
-
-
 
                     url.forEach(value => {
 
-                        str2 = str2 + value + ', '
+                        str2 = str2 + value + ','
                     })
+
+                    console.log(url)
+
+
                     status.forEach(value => {
                         str3 = str3 + value + ', '
                     })
@@ -120,8 +120,7 @@ function Main() {
 
                     console.log('entrou aqui')
                     axios.post('http://localhost:5000/Email', {
-                        url: str2,
-                        status: str3
+                        url: url
                     })
                     console.log("Email enviado por erro")
 
