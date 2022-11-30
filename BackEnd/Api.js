@@ -47,116 +47,157 @@ app.post('/Email', function (req, res) {
     }
     transporter.use('compile', hbs(handlebarOptions));
 
-    //     let url2 = (req.body.url).split(',')
-    //     let url = [];
-    // console.log(url2, "oiasaisaosisaosaisosiasia")
-    //     url2.map(value => {
-    //         url.push(
-
-    //             {
-    //                 name:value
-    //             }
-    //         )
-    //     })
-
-    // console.log(req.body.url)
-
 
     const mailOptions = {
         from: '"No Reply" <scalatestdev@gmail.com',
         to: 'vitor.silva@scaladatacenters.com',
         subject: 'Erro em requisições',
-        // template: './template.hbs',
-        // text: (`Erro de requisição em: 
-        // ${req.body.url} 
-        // ${req.body.status}
 
         // Date: ${today} `),
         template: 'template',
         context: {
             url: req.body.url,
+            Date: `${today}`
         }
     };
 
-
-
-
     transporter.sendMail(mailOptions, function (error, info) {
-        if (err) {
-            console.log(err);
+        if (error) {
+            console.log(error);
         } else {
             console.log('Email enviado: ');
         }
     })
-    // res.send(mailOptions)
+    res.send(mailOptions)
 }
 
-
-
 );
-let status;
-let url;
+
+
 
 app.post("/login", async function (req, res) {
 
-    let token;
+    const urls = []
+    // url2 = req.body.url
+    let status;
+    let url = []
+    // console.log(req.body.url)
+    // console.log(req.body.status)
 
-    var data = `grant_type=client_credentials&client_id=${req.body.clientid}&client_secret=${req.body.clientsecret}&resource=${req.body.clientid}`
+    await req.body.body.map(async value => {
+        let token;
+        console.log(Object.keys(value).includes('clientid'))
 
-    await axios.post('https://login.microsoftonline.com/a56222e7-2ad0-4357-81fc-8485f79f59ec/oauth2/token', data, {
-        headers: {
-            'Accept': 'application/json;odate=verbose',
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-    })
+        if (Object.keys(value).includes('clientid')) {
 
-        .then(response => {
-            token = response.data.access_token
-        })
-
-        .catch(error => {
-            if (status > 299) {
-                axios.post("http://localhost:5000/Email", {
-                    url: url
+            var data = `grant_type=client_credentials&client_id=${value.clientid}&client_secret=${value.clientsecret}&resource=${value.clientid}`
+            // console.log(value.clientid)
+            await axios.post('https://login.microsoftonline.com/a56222e7-2ad0-4357-81fc-8485f79f59ec/oauth2/token', data, {
+                headers: {
+                    'Accept': 'application/json;odate=verbose',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(response => {
+                axios(value.url, {
+                    headers: {
+                        'Authorization': 'Bearer ' + response.data.access_token
+                    }
                 })
-                console.log(error)
-            }
-            console.log(error)
+                    .then(response => {
+                        console.log({ url: response.config.url, status: response.status })
+                        url.push({ url: response.config.url, status: response.status })
+                    })
 
-
-        })
-
-    await axios(req.body.url, {
-        headers: {
-            'Authorization': 'Bearer ' + token
-        }
-    })
-        .catch(error => {
-            if (status > 299) {
-                axios.post("http://localhost:5000/Email", {
-                    url: url
-                })
-                console.log(error)
-            }
-        })
-        .then(response => {
-            status = response.status
-            url = response.config.url
-        })
-        .catch(error => {
-            axios.post("http://localhost:5000/Email", {
-                url: url
             })
-            console.log(error)
+        } else {
+            axios(value.url)
+                .then(response => {
+                    console.log({ url: response.config.url, status: response.status })
+                    url.push({ url: response.config.url, status: response.status })
+                })
+                .catch(error => {
+                    status = error.response.status
+                    url.push({ url: value.url, status: status });
 
-        })
+                })
+
+        }
 
 
-    // console.log(url)
-    // console.log( url2)
-    console.log(status, url)
-    res.send(status, url)
-    return status
+
+    })
+
+    // .catch(error => {
+    // })
+
+    // req.body.url.map((i) => {
+
+    //     axios(i, {
+    //         headers: {
+    //             'Authorization': 'Bearer ' + token
+    //         }
+    //     }).then(response => {
+    //             status = response.status
+    //             url = response.config.url
+
+    //         })
+
+    //         .catch(error => {
+    //             // console.log((error.response.status))
+    //             status = error.response.status
+    //             urls.push({ name: i.url, status: status });
+
+    //             console.log(urls)
+
+    //             if (urls.length > 0) {
+    //                 axios.post("http://localhost:5000/Email", {
+    //                     url: urls,
+    //                 })
+    //                 console.log('entrou')
+
+    //             }
+
+    //             // console.log ('Email enviado por erro')
+
+    //         })
+
+    // })
+
+    // await axios(req.body.url, {
+    //     headers: {
+    //         'Authorization': 'Bearer ' + token
+    //     }
+    // })
+    //     .catch(error => {
+    //         // console.log((error.response.status))
+    //         // status = 500
+    //         status = error.response.status
+    //         urls.push({ name: req.body.url, status: status });
+
+    //         // if (urls.length) {
+    //         //     axios.post("http://localhost:5000/Email", {
+    //         //         url: urls,
+    //         //     })
+    //         //     console.log('entrou')
+
+    //         // }
+    //         // console.log ('Email enviado por erro')
+
+    //     })
+
+
+
+    //console.log('status', status)
+    setTimeout(() => {
+
+        // axios.post("http://localhost:5000/Email", {
+        //     url: url,
+        // })
+
+        console.log(url, 'oiiiiiiiiiiiii')
+    }, 10000);
+    res.send(url)
+    return url
 
 });
 app.listen(5000, () =>

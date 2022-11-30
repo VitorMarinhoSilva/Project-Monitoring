@@ -27,115 +27,93 @@ function Main() {
     // };
     const [arrayBase, setArrayBase] = React.useState([])
     const [haveCatch, setHaveCatch] = React.useState(true)
-
     const options = [{ method: 'GET' },
     { method: 'POST' }
     ];
 
+
     let Info = [
-        { nome: "SCALA DRILL", url: 'https://drillreleasedev.azurewebsites.net/app', req: options[0].method, status: '', link: 'https://drillreleasedev.azurewebsites.net/' },
         { nome: "QBR", url: 'https://qbrdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://qbrdev.azurewebsites.net/', clientid: `${process.env.REACT_APP_CLIENT_ID_QBR}`, clientsecret: `${process.env.REACT_APP_CLIENT_SECRET_QBR}` },
         { nome: "RACK COUNT", url: 'https://rackcountdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://rackcountdev.azurewebsites.net', clientid: `${process.env.REACT_APP_CLIENT_ID_RACK}`, clientsecret: `${process.env.REACT_APP_CLIENT_SECRET_RACK}` },
-        { nome: "IT TOOL", url: 'http://10.1.108.11:5009/check_health', req: options[0].method, status: '', link: 'http://10.1.108.11:5009/check_health' },
+        { nome: "SCALA DRILL", url: 'https://drillreleasedev.azurewebsites.net/app', req: options[0].method, status: '', link: 'https://drillreleasedev.azurewebsites.net/' },
+        // { nome: "IT TOOL", url: 'http://10.1.108.11:5009/check_health', req: options[0].method, status: '', link: 'http://10.1.108.11:5009/check_health' },
+        // { nome: "IT TOOL", url: 'https://drillreleasedev.azurewebsites.net/acc', req: options[0].method, status: '', link: 'http://10.1.108.11:5009/check_health' },
+        // { nome: "IT TOOL", url: 'https://drillreleasedev.azurewebsites.net/att', req: options[0].method, status: '', link: 'http://10.1.108.11:5009/check_health' },
     ];
+
+
+
 
     let index = 0
     const [url, setUrl] = React.useState([])
     const [status, setStatus] = React.useState([])
-    const [req, setRequi] = React.useState([])
-
 
     React.useEffect(() => {
         async function Teste() {
             const urls = []
             const statusCode = []
-            const requi = []
-            let str2 = ''
-            let str3 = ''
-            Info.map((value, i) => {
-                index = i + 1;
-                axios.post('http://localhost:5000/login', {
-                    clientid: value.clientid,
-                    clientsecret: value.clientsecret,
-                    url: value.url
-                })
-
-
-                    .then(res => {
-                        Info[i].status = res.status;
-                        setArrayBase((item) => {
-                            return [
-                                ...item, Info[i]
-                            ];
-                        });
-                        setHaveCatch(true);
-                        urls.push({ name: value.url, status: value.status });
-                        // urls.push(value.url)
-                        statusCode.push(value.status);
-                    })
-                    .catch(error => {
-                        url.forEach(value => {
-
-                            str2 = str2 + value + ', ';
-                        });
-                        console.log(url);
-                        // status.forEach(value => {
-                        //     str3 = str3 + value + ', '
-                        // })
-                        // req.forEach(value => {
-                        //     str4 = str4 + value + ', '
-                        // })
-                        console.log('entrou aqui');
-                        axios.post('http://localhost:5000/Email', {
-                            url: str2,
-                            status: str3
-                        });
-                        console.log("Email enviado por erro");
-                        setArrayBase((item) => {
-                            return [
-                                ...item, Info[i]
-                            ];
-                        });
-                        console.log('entrou aqui');
-                    });
-
-               if (i + 1 == Info.length & value.status < 299 && haveCatch) {
-
-                    url.forEach(value => {
-
-                        str2 = str2 + value + ',';
-                    });
-
-                    console.log(url);
-
-
-                    status.forEach(value => {
-                        str3 = str3 + value + ', ';
-                    });
-                    // req.forEach(value => {
-                    //     str4 = str4 + value + ', '
-                    // })
-                    console.log('entrou aqui');
-                    axios.post('http://localhost:5000/Email', {
-                        url: url
-                    });
-                    console.log("Email enviado por erro");
-
-                }
-                // console.log(index, Info.length, haveCatch)
+            const urlEmail = []
+            axios.post('http://localhost:5000/login', {
+                body: Info,
             })
+            .then(response =>{
+                setArrayBase (response.data)
+                console.log(response.data)
+            })
+        
+            
+            // Info.map((value, i) => {
+            //     index = i + 1;
+            //     urlEmail.push({ url: value.url})
+                // axios.post('http://localhost:5000/login', {
+                //     clientid: value.clientid,
+                //     clientsecret: value.clientsecret,
+                //     url: urlEmail,
+                //     status: value.status,
+                // })
+
+            //         .then(res => {
+            //             Info[i].status = res.status;
+            //             setArrayBase((item) => {
+            //                 return [
+            //                     ...item, Info[i]
+            //                 ];
+            //             });
+            //             setHaveCatch(true);
+            //             urls.push({ name: value.url, status: value.status });
+            //             // urls.push(value.url)
+                        
+            //         })
+            //         .catch(error => {
+            //             console.log("Email enviado por erro");
+            //             setArrayBase((item) => {
+            //                 return [
+            //                     ...item, Info[i]
+            //                 ];
+            //             });
+            //         });
+            //         // console.log(urls)
+            //         console.log(urlEmail)
+
+            //     if (i + 1 == Info.length & value.status > 299 && haveCatch) {
+            //         // console.log(url);
+            //         console.log('entrou aqui');
+            //         axios.post('http://localhost:5000/Email', {
+            //             url: url
+            //         });
+            //         console.log("Email enviado por Status Code");
+            //     }
+            // })
+            
+
             setUrl(urls)
             setStatus(statusCode)
-            setRequi(requi)
 
         }
         Teste()
 
     }, [])
-
     React.useEffect(() => {
-
-
     }, [haveCatch])
 
     function verifyLenght(arr) {
@@ -174,23 +152,21 @@ function Main() {
                         <h6 > {verifyLenght(arrayBase)} </h6>
                     </div>
                 </div>
-
-
                 {
                     arrayBase !== undefined ?
                         arrayBase.map(value => {
                             return (<div className="project-info">
                                 <div className="project">
-                                    <h6>PROJECT: {value.nome} </h6>
+                                    {/* <h6>PROJECT: {value.nome} </h6> */}
                                 </div>
                                 <div className="requi">
-                                    <h6 style={value.status < 299 ? { background: '#288B11' } : { background: '#E64343' }}>TIPO DE REQUISIÇÃO: {value.req}  </h6>
+                                    {/* <h6 style={value.status < 299 && typeof value.status == 'number' ? { background: '#288B11' } : { background: '#E64343' }}>TIPO DE REQUISIÇÃO: {value.  req}</h6> */}
                                 </div>
                                 <div className="rotas" >
-                                    <a href={value.link} target="_blank"><h6 style={value.status < 299 ? { background: '#288B11' } : {}}>ROTA: {value.url} </h6></a>
+                                    <a href={value.link} target="_blank"><h6 style={ value.status < 300  && typeof value.status == 'number'  ? { background: '#288B11' } : {}}>ROTA: {value.url} </h6></a>
                                 </div>
                                 <div className="status-error right" >
-                                    <h6 style={value.status < 299 ? { color: '#288B11' } : { color: '#E64343' }} > <img src={value.status < 299 ? GlobGreen : GlobRed} alt="icon" className="img-red" /> STATUS: {value.status}</h6 >
+                                    <h6 style={value.status < 299 && typeof value.status == 'number'  ? { color: '#288B11' } : { color: '#E64343' }} > <img src={value.status < 299 && typeof value.status == 'number' ? GlobGreen : GlobRed} alt="icon" className="img-red" /> STATUS: {value.status}</h6 >
                                 </div>
                             </div>)
                         })
