@@ -86,13 +86,13 @@ app.post("/login", async function (req, res) {
 
     await req.body.body.map(async value => {
         let token;
-        console.log(Object.keys(value).includes('clientid'))
+        // console.log(Object.keys(value).includes('clientid'))
 
         if (Object.keys(value).includes('clientid')) {
 
             var data = `grant_type=client_credentials&client_id=${value.clientid}&client_secret=${value.clientsecret}&resource=${value.clientid}`
             // console.log(value.clientid)
-            await axios.post('https://login.microsoftonline.com/a56222e7-2ad0-4357-81fc-8485f79f59ec/oauth2/token', data, {
+            axios.post('https://login.microsoftonline.com/a56222e7-2ad0-4357-81fc-8485f79f59ec/oauth2/token', data, {
                 headers: {
                     'Accept': 'application/json;odate=verbose',
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -104,20 +104,20 @@ app.post("/login", async function (req, res) {
                     }
                 })
                     .then(response => {
-                        console.log({ url: response.config.url, status: response.status })
-                        url.push({ url: response.config.url, status: response.status })
+                        // console.log({ nome: value.nome, url: response.config.url, status: response.status })
+                        url.push({ nome: value.nome, req: value.req, url: response.config.url, status: response.status })
                     })
 
             })
         } else {
             axios(value.url)
                 .then(response => {
-                    console.log({ url: response.config.url, status: response.status })
-                    url.push({ url: response.config.url, status: response.status })
+                    console.log({ nome: value.nome, req: value.req, url: response.config.url, status: response.status })
+                    url.push({ nome: value.nome, req: value.req, url: response.config.url, status: response.status })
                 })
                 .catch(error => {
                     status = error.response.status
-                    url.push({ url: value.url, status: status });
+                    url.push({ nome: value.nome, req: value.req, url: value.url, status: status });
 
                 })
 
@@ -127,77 +127,23 @@ app.post("/login", async function (req, res) {
 
     })
 
-    // .catch(error => {
-    // })
 
-    // req.body.url.map((i) => {
-
-    //     axios(i, {
-    //         headers: {
-    //             'Authorization': 'Bearer ' + token
-    //         }
-    //     }).then(response => {
-    //             status = response.status
-    //             url = response.config.url
-
-    //         })
-
-    //         .catch(error => {
-    //             // console.log((error.response.status))
-    //             status = error.response.status
-    //             urls.push({ name: i.url, status: status });
-
-    //             console.log(urls)
-
-    //             if (urls.length > 0) {
-    //                 axios.post("http://localhost:5000/Email", {
-    //                     url: urls,
-    //                 })
-    //                 console.log('entrou')
-
-    //             }
-
-    //             // console.log ('Email enviado por erro')
-
-    //         })
-
-    // })
-
-    // await axios(req.body.url, {
-    //     headers: {
-    //         'Authorization': 'Bearer ' + token
-    //     }
-    // })
-    //     .catch(error => {
-    //         // console.log((error.response.status))
-    //         // status = 500
-    //         status = error.response.status
-    //         urls.push({ name: req.body.url, status: status });
-
-    //         // if (urls.length) {
-    //         //     axios.post("http://localhost:5000/Email", {
-    //         //         url: urls,
-    //         //     })
-    //         //     console.log('entrou')
-
-    //         // }
-    //         // console.log ('Email enviado por erro')
-
-    //     })
-
-
-
-    //console.log('status', status)
     setTimeout(() => {
 
-        // axios.post("http://localhost:5000/Email", {
-        //     url: url,
-        // })
+        
+        const urlErro = url.filter(i => i.status > 300)
+        if(urlErro.length > 0){
 
+            axios.post("http://localhost:5000/Email", {
+                url: urlErro,
+            })
+        }
+        
         console.log(url, 'oiiiiiiiiiiiii')
-    }, 10000);
-    res.send(url)
-    return url
+        res.send(url)
+        return url
+    }, 5000);
+
 
 });
 app.listen(5000, () =>

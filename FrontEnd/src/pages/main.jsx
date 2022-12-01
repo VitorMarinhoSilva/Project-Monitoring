@@ -35,7 +35,7 @@ function Main() {
     let Info = [
         { nome: "QBR", url: 'https://qbrdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://qbrdev.azurewebsites.net/', clientid: `${process.env.REACT_APP_CLIENT_ID_QBR}`, clientsecret: `${process.env.REACT_APP_CLIENT_SECRET_QBR}` },
         { nome: "RACK COUNT", url: 'https://rackcountdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://rackcountdev.azurewebsites.net', clientid: `${process.env.REACT_APP_CLIENT_ID_RACK}`, clientsecret: `${process.env.REACT_APP_CLIENT_SECRET_RACK}` },
-        { nome: "SCALA DRILL", url: 'https://drillreleasedev.azurewebsites.net/app', req: options[0].method, status: '', link: 'https://drillreleasedev.azurewebsites.net/' },
+        // { nome: "SCALA DRILL", url: 'https://drillreleasedev.azurewebsites.net/app', req: options[0].method, status: '', link: 'https://drillreleasedev.azurewebsites.net/' },
         // { nome: "IT TOOL", url: 'http://10.1.108.11:5009/check_health', req: options[0].method, status: '', link: 'http://10.1.108.11:5009/check_health' },
         // { nome: "IT TOOL", url: 'https://drillreleasedev.azurewebsites.net/acc', req: options[0].method, status: '', link: 'http://10.1.108.11:5009/check_health' },
         // { nome: "IT TOOL", url: 'https://drillreleasedev.azurewebsites.net/att', req: options[0].method, status: '', link: 'http://10.1.108.11:5009/check_health' },
@@ -56,21 +56,21 @@ function Main() {
             axios.post('http://localhost:5000/login', {
                 body: Info,
             })
-            .then(response =>{
-                setArrayBase (response.data)
-                console.log(response.data)
-            })
-        
-            
+                .then(response => {
+                    setArrayBase(response.data)
+                    console.log(response)
+                })
+
+
             // Info.map((value, i) => {
             //     index = i + 1;
             //     urlEmail.push({ url: value.url})
-                // axios.post('http://localhost:5000/login', {
-                //     clientid: value.clientid,
-                //     clientsecret: value.clientsecret,
-                //     url: urlEmail,
-                //     status: value.status,
-                // })
+            // axios.post('http://localhost:5000/login', {
+            //     clientid: value.clientid,
+            //     clientsecret: value.clientsecret,
+            //     url: urlEmail,
+            //     status: value.status,
+            // })
 
             //         .then(res => {
             //             Info[i].status = res.status;
@@ -82,7 +82,7 @@ function Main() {
             //             setHaveCatch(true);
             //             urls.push({ name: value.url, status: value.status });
             //             // urls.push(value.url)
-                        
+
             //         })
             //         .catch(error => {
             //             console.log("Email enviado por erro");
@@ -104,7 +104,7 @@ function Main() {
             //         console.log("Email enviado por Status Code");
             //     }
             // })
-            
+
 
             setUrl(urls)
             setStatus(statusCode)
@@ -157,16 +157,16 @@ function Main() {
                         arrayBase.map(value => {
                             return (<div className="project-info">
                                 <div className="project">
-                                    {/* <h6>PROJECT: {value.nome} </h6> */}
+                                    <h6>PROJECT: {value.nome} </h6>
                                 </div>
                                 <div className="requi">
-                                    {/* <h6 style={value.status < 299 && typeof value.status == 'number' ? { background: '#288B11' } : { background: '#E64343' }}>TIPO DE REQUISIÇÃO: {value.  req}</h6> */}
+                                    <h6 style={value.status < 299 && typeof value.status == 'number' ? { background: '#288B11' } : { background: '#E64343' }}>TIPO DE REQUISIÇÃO: {value.req}</h6>
                                 </div>
                                 <div className="rotas" >
-                                    <a href={value.link} target="_blank"><h6 style={ value.status < 300  && typeof value.status == 'number'  ? { background: '#288B11' } : {}}>ROTA: {value.url} </h6></a>
+                                    <a href={value.link} target="_blank"><h6 style={value.status < 300 && typeof value.status == 'number' ? { background: '#288B11' } : {}}>ROTA: {value.url} </h6></a>
                                 </div>
                                 <div className="status-error right" >
-                                    <h6 style={value.status < 299 && typeof value.status == 'number'  ? { color: '#288B11' } : { color: '#E64343' }} > <img src={value.status < 299 && typeof value.status == 'number' ? GlobGreen : GlobRed} alt="icon" className="img-red" /> STATUS: {value.status}</h6 >
+                                    <h6 style={value.status < 299 && typeof value.status == 'number' ? { color: '#288B11' } : { color: '#E64343' }} > <img src={value.status < 299 && typeof value.status == 'number' ? GlobGreen : GlobRed} alt="icon" className="img-red" /> STATUS: {value.status}</h6 >
                                 </div>
                             </div>)
                         })
