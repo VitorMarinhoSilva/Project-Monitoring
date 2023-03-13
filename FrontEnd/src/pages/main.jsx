@@ -6,25 +6,12 @@ import GlobWhite from "../static/GlobWihte.svg";
 import axios from 'axios'
 
 
+
+// This is a code for a React component named "Main". It uses hooks to manage state and API calls to check the status of different URLs.
+// The initial state of the component includes an empty array for "arrayBase" and "url", and "haveCatch" is set to true. The "options" array includes two HTTP methods: GET and POST.
+// The "Info" array includes two objects with properties such as "nome" (name), "url" (URL), "req" (HTTP request method), "status" (HTTP response status), and "link" (link to be displayed in the frontend). The second object has a URL for the Python organization and uses the GET method
+
 function Main() {
-    // const keys = Object.keys(sessionStorage);
-    // for (let key of keys) {
-    //     var token = JSON.parse(sessionStorage.getItem(keys[0]));
-    //     // console.log(token.secret)
-    // }
-    // let getToken;
-    // const configToken = {
-    //     headers: {
-    //         'Accept': 'application/json;odate=verbose',
-    //         'Content-Type': 'application/x-www-form-urlencoded'
-    //     },
-    // }
-    // const config = {
-    //     method: 'get',
-    //     headers: {
-    //         'Authorization': 'Bearer ' + getToken
-    //     }
-    // };
     const [arrayBase, setArrayBase] = React.useState([])
     const [haveCatch, setHaveCatch] = React.useState(true)
     const options = [{ method: 'GET' },
@@ -33,12 +20,8 @@ function Main() {
 
 
     let Info = [
-        { nome: "QBR", url: 'https://qbrdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://qbrdev.azurewebsites.net/', clientid: `${process.env.REACT_APP_CLIENT_ID_QBR}`, clientsecret: `${process.env.REACT_APP_CLIENT_SECRET_QBR}` },
-        { nome: "RACK COUNT", url: 'https://rackcountdev.azurewebsites.net/data', req: options[0].method, status: '', link: 'https://rackcountdev.azurewebsites.net', clientid: `${process.env.REACT_APP_CLIENT_ID_RACK}`, clientsecret: `${process.env.REACT_APP_CLIENT_SECRET_RACK}` },
-        // { nome: "SCALA DRILL", url: 'https://drillreleasedev.azurewebsites.net/app', req: options[0].method, status: '', link: 'https://drillreleasedev.azurewebsites.net/' },
-        // { nome: "IT TOOL", url: 'http://10.1.108.11:5009/check_health', req: options[0].method, status: '', link: 'http://10.1.108.11:5009/check_health' },
-        // { nome: "IT TOOL", url: 'https://drillreleasedev.azurewebsites.net/acc', req: options[0].method, status: '', link: 'http://10.1.108.11:5009/check_health' },
-        // { nome: "IT TOOL", url: 'https://drillreleasedev.azurewebsites.net/att', req: options[0].method, status: '', link: 'http://10.1.108.11:5009/check_health' },
+        { nome: "name", url: 'url your project', req: options[0].method, status: '', link: 'link that will appear in the frontend', clientid: `${process.env.REACT_APP_CLIENT_ID}`, clientsecret: `${process.env.REACT_APP_CLIENT_SECRET}` },
+        { nome: "PYTHON ORG", url: 'https://www.python.org', req: options[0].method, status: '', link: 'https://www.python.org'},
     ];
 
 
@@ -58,53 +41,11 @@ function Main() {
             })
                 .then(response => {
                     setArrayBase(response.data)
-                    console.log(response)
+                    // console.log(response)
                 })
-
-
-            // Info.map((value, i) => {
-            //     index = i + 1;
-            //     urlEmail.push({ url: value.url})
-            // axios.post('http://localhost:5000/login', {
-            //     clientid: value.clientid,
-            //     clientsecret: value.clientsecret,
-            //     url: urlEmail,
-            //     status: value.status,
-            // })
-
-            //         .then(res => {
-            //             Info[i].status = res.status;
-            //             setArrayBase((item) => {
-            //                 return [
-            //                     ...item, Info[i]
-            //                 ];
-            //             });
-            //             setHaveCatch(true);
-            //             urls.push({ name: value.url, status: value.status });
-            //             // urls.push(value.url)
-
-            //         })
-            //         .catch(error => {
-            //             console.log("Email enviado por erro");
-            //             setArrayBase((item) => {
-            //                 return [
-            //                     ...item, Info[i]
-            //                 ];
-            //             });
-            //         });
-            //         // console.log(urls)
-            //         console.log(urlEmail)
-
-            //     if (i + 1 == Info.length & value.status > 299 && haveCatch) {
-            //         // console.log(url);
-            //         console.log('entrou aqui');
-            //         axios.post('http://localhost:5000/Email', {
-            //             url: url
-            //         });
-            //         console.log("Email enviado por Status Code");
-            //     }
-            // })
-
+                .catch(error => {
+                    console.log(error)
+                })
 
             setUrl(urls)
             setStatus(statusCode)
